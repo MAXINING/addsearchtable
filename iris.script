@@ -1,0 +1,11 @@
+
+     do $system.OBJ.ImportDir("/opt/searchtable/src/",,"cbrpsuy",,1)
+
+     Do ##class(SearchTable.Util.Setting).Setting()
+     zn "%SYS"
+     
+     
+     Do ##class(Security.Users).UnExpireUserPasswords("*")
+
+     
+     halt

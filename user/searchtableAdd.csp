@@ -1,0 +1,1212 @@
+<html>
+
+<head>
+    <STYLE type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a2a6c 0%, #2a5298 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            background-color: white;
+            border-radius: 16px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 1200px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 95vh;
+        }
+
+        .header {
+            background: linear-gradient(to right, #1a2a6c, #2a5298);
+            color: white;
+            padding: 25px 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.4rem;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        .content {
+            padding: 25px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .main-content {
+            display: flex;
+            gap: 25px;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .form-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .form-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .form-header h2 {
+            color: #1a2a6c;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .input-rows-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 5px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            background: #f8f9ff;
+            margin-bottom: 20px;
+        }
+
+        .input-row {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid #e0e0e0;
+            transition: all 0.3s ease;
+            animation: fadeIn 0.3s ease-out;
+            background: white;
+        }
+
+        .input-row.active {
+            border-color: #1a2a6c;
+            box-shadow: 0 0 0 2px rgba(26, 42, 108, 0.3);
+        }
+
+        .row-header {
+            display: flex;
+            gap: 15px;
+            padding: 15px;
+            align-items: center;
+            cursor: pointer;
+            background: #fff;
+            transition: background 0.2s;
+        }
+
+        .row-header:hover {
+            background: #f8f9ff;
+        }
+
+        .row-header .toggle-icon {
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease;
+        }
+
+        .input-row.active .toggle-icon {
+            transform: rotate(180deg);
+        }
+
+        .input-group {
+            position: relative;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #444;
+            font-size: 0.9rem;
+        }
+
+        .input-group input,
+        .input-group select {
+            width: 100%;
+            padding: 12px 14px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .input-group input:focus,
+        .input-group select:focus {
+            border-color: #1a2a6c;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(26, 42, 108, 0.2);
+        }
+
+        .input-fields {
+            display: flex;
+            gap: 15px;
+            width: 100%;
+        }
+
+        .node-name {
+            flex: 1;
+        }
+
+        .node-type {
+            flex: 1;
+        }
+
+        .node-path {
+            flex: 2;
+        }
+
+        .delete-btn {
+            background: linear-gradient(to right, #ff416c, #ff4b2b);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            width: 45px;
+            height: 45px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(255, 65, 108, 0.3);
+            flex-shrink: 0;
+        }
+
+        .delete-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 12px rgba(255, 65, 108, 0.4);
+        }
+
+        .collapse-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out;
+            background: #f8f9ff;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .collapse-content-inner {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .data-editor-section {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .data-editor-section h3 {
+            color: #1a2a6c;
+            margin-bottom: 5px;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .data-textarea {
+            width: 100%;
+            min-height: 150px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 14px;
+            resize: vertical;
+        }
+
+        .data-textarea:focus {
+            outline: none;
+            border-color: #1a2a6c;
+            box-shadow: 0 0 0 3px rgba(26, 42, 108, 0.2);
+        }
+
+        .validation-result {
+            padding: 12px 15px;
+            border-radius: 8px;
+            font-weight: 500;
+            display: none;
+        }
+
+        .validation-result.success {
+            background: #e6f7ee;
+            color: #0f9d58;
+            border: 1px solid #a5d6c3;
+            display: block;
+        }
+
+        .validation-result.error {
+            background: #fce8e6;
+            color: #d93025;
+            border: 1px solid #f4c7c3;
+            display: block;
+        }
+
+        .data-viewer {
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 15px;
+            background: #f8f9ff;
+            min-height: 200px;
+            max-height: 300px;
+            overflow: auto;
+            font-family: monospace;
+            font-size: 14px;
+            position: relative;
+        }
+
+        .data-viewer .node {
+            cursor: pointer;
+            transition: all 0.2s;
+            padding: 2px 4px;
+            border-radius: 3px;
+            margin: 1px 0;
+        }
+
+        .data-viewer .node:hover {
+            background: rgba(26, 42, 108, 0.1);
+        }
+
+        .data-viewer .node.selected {
+            background: rgba(26, 42, 108, 0.2);
+            font-weight: bold;
+        }
+
+        .data-viewer .tag {
+            color: #1a2a6c;
+            font-weight: bold;
+        }
+
+        .data-viewer .attr {
+            color: #d93025;
+        }
+
+        .data-viewer .attr-value {
+            color: #0f9d58;
+        }
+
+        .json-key {
+            color: #1a2a6c;
+            font-weight: bold;
+        }
+
+        .json-string {
+            color: #0f9d58;
+        }
+
+        .json-number {
+            color: #d35400;
+        }
+
+        .json-boolean {
+            color: #8e44ad;
+        }
+
+        .json-null {
+            color: #7f8c8d;
+        }
+
+        .actions {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .btn {
+            padding: 14px 28px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(to right, #1a2a6c, #2a5298);
+            color: white;
+            box-shadow: 0 4px 12px rgba(26, 42, 108, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 15px rgba(26, 42, 108, 0.5);
+        }
+
+        .btn-secondary {
+            background-color: #f0f0f0;
+            color: #555;
+        }
+
+        .btn-secondary:hover {
+            background-color: #e0e0e0;
+        }
+
+        .counter {
+	        display:none;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px 20px;
+            text-align: center;
+            margin-top: 25px;
+            border: 1px solid #eee;
+            font-weight: 600;
+            color: #1a2a6c;
+           
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #777;
+            font-size: 0.9rem;
+            border-top: 1px solid #eee;
+        }
+
+        .instructions {
+            background-color: #f8f9ff;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 25px;
+            border-left: 4px solid #1a2a6c;
+        }
+
+        .instructions h3 {
+            color: #1a2a6c;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .instructions ul {
+            padding-left: 20px;
+        }
+
+        .instructions li {
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 992px) {
+            .main-content {
+                flex-direction: column;
+            }
+
+            .input-fields {
+                flex-wrap: wrap;
+            }
+
+            .node-name,
+            .node-type {
+                flex: 1 0 40%;
+            }
+
+            .node-path {
+                flex: 1 0 100%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .row-header {
+                flex-wrap: wrap;
+            }
+
+            .input-fields {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .delete-btn {
+                width: 100%;
+                margin-top: 10px;
+                height: 40px;
+            }
+
+            .actions {
+                flex-direction: column;
+            }
+        }
+    </STYLE>
+    <!-- Put your page Title here -->
+    <title> Cache Server Page </title>
+    <link rel="stylesheet" href="all.min.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-sitemap"></i>Creat SearchTable</h1>
+
+        </div>
+
+        <div class="content">
+            <div class="form-container">
+                <div class="form-header" style="
+    flex-direction: column;
+    align-items: flex-start;
+">
+                    <h2><i class="fas fa-list"></i></h2>
+                    <div class="actions" style="width: 100%;">
+                        <div class="input-fields">
+                            <div class="input-group node-name">
+                                <label for="searchTableName">searchTableName</label>
+                                <input type="text" id="searchTableName" placeholder="searchTableName">
+                            </div>
+                            <div class="input-group node-type">
+                                <label for="messageType">message Class</label>
+                                <select id="messageType" class="format-selector">
+
+                                </select>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="form-header">
+                    <h2><i class="fas fa-list"></i> Item</h2>
+                    <div class="actions">
+                        <button class="btn btn-primary" id="addBtn">
+                            <i class="fas fa-plus"></i> Add
+                        </button>
+                    </div>
+                </div>
+
+                <div class="input-rows-container" id="formContainer">
+                    <!-- ??????????? -->
+                </div>
+
+                <div class="counter" >
+                    <i class="fas fa-list"></i>
+                    <span id="rowCount">0</span> ?????
+                </div>
+                <div class="actions" style="display:flex;width:100%;flex-direction:row-reverse">
+
+                    <button class="btn btn-primary" id="Submit">
+                        <i class="fas fa-plus"></i> Submit
+                    </button>
+
+                </div>
+            </div>
+
+
+        </div>
+
+        <div class="footer">
+
+        </div>
+    </div>
+    <script src="jquery-3.7.1.js"></script>
+    <script language=javaScript>
+
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const formContainer = document.getElementById('formContainer');
+            const addBtn = document.getElementById('addBtn');
+            const rowCountElement = document.getElementById('rowCount');
+            const submitbtn = document.getElementById('Submit');
+            let rowCount = 0;
+            const maxRows = 15;
+            let activeRow = null;
+            let currentData = null;
+            let currentDataType = null;
+            let Property = []
+            let category = 'xml'
+            let strArr=["",""]
+            let strOb={}
+            
+            function addInputRow() {
+                if (rowCount >= maxRows) {
+                    alert(`?????? ${maxRows} ?????`);
+                    return;
+                }
+
+              
+                rowCount++;
+                  if (category=="xml"){
+                        strArr[rowCount]=strArr[rowCount-1]     
+	              }
+                rowCountElement.textContent = rowCount;
+
+                const row = document.createElement('div');
+                var temp = `</div>
+                              
+                            <div class="input-group node-type" style="display:none">
+                                <label for="nodeType${rowCount}">xpath</label>
+                                <select id="nodeType${rowCount}" class="format-selector">
+                                    <option value="xml" selected>XML String</option>
+                                    <option value="json">JSON String</option>
+                                </select>
+                            </div>
+                            
+                            `
+                if (category != 'xml') {
+                    console.log(Property)
+                    var optionhtml = ''
+                    var j = 0
+                           optionhtml = optionhtml + '  <option value="' + Property[j].Value + '" selected>' + Property[j].Value + '</option>'
+                   
+                    for (j = 1; j < Property.length; j++) {
+                        optionhtml = optionhtml + '  <option value="' + Property[j].Value + '" >' + Property[j].Value + '</option>'
+                    }
+
+
+
+                    var temp = `</div>
+                               <div class="input-group node-name">
+                                <label for="msgtypeP${rowCount}">Property</label>
+                               <select id="msgtypeP${rowCount}" class="format-selector">
+                                   `+ optionhtml + `
+                                </select>
+                            </div>
+                            <div class="input-group node-type">
+                                <label for="nodeType${rowCount}">node type</label>
+                                <select id="nodeType${rowCount}" class="format-selector">
+                                    <option value="xml" selected>XML String</option>
+                                    <option value="json">JSON String</option>
+                                </select>
+                            </div>
+                            
+                            `
+                }
+                row.className = 'input-row';
+                row.dataset.id = rowCount;
+               
+                if (category=="xml"){
+                        var strA= strArr[rowCount]
+	              }else{
+		              
+		               var strA= strOb[Property[0].Value]
+		             }
+
+                row.innerHTML = `
+                    <div class="row-header">
+                        <div class="toggle-icon">
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="input-fields">
+                            <div class="input-group node-name">
+                                <label for="nodeName${rowCount}">node Name</label>
+                                <input type="text" id="nodeName${rowCount}" placeholder="node Name">
+                          `+ temp + `
+                            
+                            <div class="input-group node-path">
+                                <label for="path${rowCount}">node path</label>
+                                <input type="text" id="path${rowCount}" placeholder="node path" >
+                            </div>
+                        </div>
+                        <button class="delete-btn" type="button">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                    <div class="collapse-content">
+                        <div class="collapse-content-inner" style='flex-direction: row'>
+                            <div style="width:50%">
+                            <div class="data-editor-section">
+                                <h3><i class="fas fa-code"></i> data-editor</h3>
+                                <textarea class="data-textarea" id="dataInput${rowCount}" placeholder=""> ` +strA+`</textarea>
+                                <div class="actions">
+                                    <button class="btn btn-primary validate-btn" data-row="${rowCount}">
+                                        <i class="fas fa-check-circle"></i> validate
+                                    </button>
+                                </div>
+                                <div id="validationResult${rowCount}" class="validation-result"></div>
+                            </div>
+                            </div>
+                             <div style="width:50%">
+                            <div class="data-editor-section">
+                                <h3><i class="fas fa-eye"></i> data-viewer</h3>
+                                <div class="data-viewer" id="dataViewer${rowCount}">
+                                    <!-- ?????????? -->
+                                    <div class="placeholder"></div>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                `;
+
+                formContainer.appendChild(row);
+
+
+                const deleteBtn = row.querySelector('.delete-btn');
+                deleteBtn.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    row.remove();
+                    rowCount--;
+                    rowCountElement.textContent = rowCount;
+                });
+
+
+                const msgtypePbtn = row.querySelector('.format-selector');
+                msgtypePbtn.addEventListener('change', function (e) {
+                    e.stopPropagation();
+                    console.log(msgtypePbtn.value)
+                    console.log(row.querySelector('.data-textarea').value)
+                    if (strOb[msgtypePbtn.value]==undefined){
+                       row.querySelector('.data-textarea').value=""
+                    }
+                });  
+
+                const rowHeader = row.querySelector('.row-header');
+                rowHeader.addEventListener('click', function () {
+
+                    if (activeRow && activeRow !== row) {
+                        activeRow.classList.remove('active');
+                        activeRow.querySelector('.collapse-content').style.maxHeight = null;
+                    }
+
+                    // ?????
+                    row.classList.toggle('active');
+                    const content = row.querySelector('.collapse-content');
+                    if (content.style.maxHeight) {
+                        content.style.maxHeight = null;
+                        activeRow = null;
+                    } else {
+                        content.style.maxHeight = content.scrollHeight + "px";
+                        activeRow = row;
+                    }
+                });
+
+              
+                const validateBtn = row.querySelector('.validate-btn');
+                validateBtn.addEventListener('click', function () {
+                    const rowId = this.dataset.row;
+                    validateData(rowId);
+                });
+
+              
+                const formatSelector = row.querySelector('.format-selector');
+                formatSelector.addEventListener('change', function () {
+                    const rowId = row.dataset.id;
+                    const dataViewer = document.getElementById(`dataViewer${rowId}`);
+                    dataViewer.innerHTML = '<div class="placeholder">-----------</div>';
+                    document.getElementById(`path${rowId}`).value = '';
+                });
+            }
+
+            // ??????
+            function validateData(rowId) {
+                const dataInput = document.getElementById(`dataInput${rowId}`);
+                const validationResult = document.getElementById(`validationResult${rowId}`);
+                const dataViewer = document.getElementById(`dataViewer${rowId}`);
+                const formatSelector = document.querySelector(`#nodeType${rowId}`);
+                const format = formatSelector.value;
+
+                const dataString = dataInput.value;
+                {
+	                if (category=="xml"){
+		                console.log(rowId+"xml---------")
+		                var idd=parseInt(rowId)
+		                console.log(idd)
+                        strArr[idd]=dataInput.value
+                         strArr[idd+1]=dataInput.value
+                           console.log(strArr)
+	                }else{
+		                 strOb[$('#msgtypeP'+rowId).val()]=dataInput.value
+		                   console.log(strOb)
+		             }
+                }
+                if (!dataString.trim()) {
+                    validationResult.className = 'validation-result error';
+                    validationResult.innerHTML = '<i class="fas fa-exclamation-circle"></i> ?????????';
+                    return;
+                }
+
+                try {
+                    if (format === 'xml') {
+                        validateXml(dataString, rowId);
+                    } else {
+                        validateJson(dataString, rowId);
+                    }
+                } catch (e) {
+                    validationResult.className = 'validation-result error';
+                    validationResult.innerHTML = `<i class="fas fa-exclamation-circle"></i> ??: ${e.message}`;
+                    dataViewer.innerHTML = '<div class="error">????????</div>';
+                }
+            }
+
+            // XML????
+            function validateXml(xmlString, rowId) {
+                const validationResult = document.getElementById(`validationResult${rowId}`);
+                const dataViewer = document.getElementById(`dataViewer${rowId}`);
+
+                const parser = new DOMParser();
+                const xmlDoc = parser.parseFromString(xmlString, "text/xml");
+
+                // ?????????
+                const parserError = xmlDoc.getElementsByTagName("parsererror");
+                if (parserError.length > 0) {
+                    validationResult.className = 'validation-result error';
+                    validationResult.innerHTML = `<i class="fas fa-exclamation-circle"></i> XML????: ${parserError[0].textContent}`;
+                    dataViewer.innerHTML = '<div class="error">XML??????????</div>';
+                    return;
+                }
+
+                // ??????
+                currentData = xmlDoc;
+                currentDataType = 'xml';
+
+                // ??????
+                validationResult.className = 'validation-result success';
+                validationResult.innerHTML = '<i class="fas fa-check-circle"></i> XML???????';
+
+                // ??XML???
+                renderXmlViewer(xmlDoc, rowId);
+            }
+
+            // JSON????
+            function validateJson(jsonString, rowId) {
+                const validationResult = document.getElementById(`validationResult${rowId}`);
+                const dataViewer = document.getElementById(`dataViewer${rowId}`);
+
+                const jsonObj = JSON.parse(jsonString);
+
+                // ??????
+                currentData = jsonObj;
+                currentDataType = 'json';
+
+                // ??????
+                validationResult.className = 'validation-result success';
+                validationResult.innerHTML = '<i class="fas fa-check-circle"></i> JSON???????';
+
+                // ??JSON???
+                renderJsonViewer(jsonObj, rowId);
+            }
+
+            // ??XML???
+            function renderXmlViewer(xmlDoc, rowId) {
+                const dataViewer = document.getElementById(`dataViewer${rowId}`);
+                dataViewer.innerHTML = '';
+
+         
+                function renderNode(node, level = 0) {
+                    if (node.nodeType === Node.ELEMENT_NODE) {
+                        const element = document.createElement('div');
+                        element.className = 'node';
+                        element.dataset.path = getXPath(node);
+
+                   
+                        const indent = '&nbsp;&nbsp;'.repeat(level);
+                        element.innerHTML = `${indent}<span class="tag">&lt;${node.nodeName}</span>`;
+
+                    
+                        if (node.attributes.length > 0) {
+                            for (let i = 0; i < node.attributes.length; i++) {
+                                const attr = node.attributes[i];
+                                element.innerHTML += ` <span class="attr">${attr.name}</span>="<span class="attr-value">${attr.value}</span>"`;
+                            }
+                        }
+
+                        element.innerHTML += '<span class="tag">&gt;</span>';
+
+                        // ??????
+                        element.addEventListener('click', function (e) {
+                            e.stopPropagation();
+                            handleNodeClick(this, rowId);
+                        });
+
+                        dataViewer.appendChild(element);
+
+                        // ?????
+                        for (let i = 0; i < node.childNodes.length; i++) {
+                            renderNode(node.childNodes[i], level + 1);
+                        }
+
+                        // ??????
+                        const endTag = document.createElement('div');
+                        endTag.className = 'node';
+                        endTag.innerHTML = `${indent}<span class="tag">&lt;/${node.nodeName}&gt;</span>`;
+                        dataViewer.appendChild(endTag);
+                    } else if (node.nodeType === Node.TEXT_NODE && node.textContent.trim() !== '') {
+                        const textNode = document.createElement('div');
+                        textNode.className = 'node';
+
+                        // ??
+                        const indent = '&nbsp;&nbsp;'.repeat(level);
+                        textNode.innerHTML = `${indent}<span>${node.textContent.trim()}</span>`;
+
+                        dataViewer.appendChild(textNode);
+                    }
+                }
+
+                // ????????
+                renderNode(xmlDoc.documentElement);
+            }
+
+            // ??JSON???
+            function renderJsonViewer(jsonObj, rowId) {
+                const dataViewer = document.getElementById(`dataViewer${rowId}`);
+                dataViewer.innerHTML = '';
+
+                // ????JSON??
+                function renderJson(data, path = '', level = 0) {
+                    const indent = '&nbsp;&nbsp;'.repeat(level);
+
+                    if (typeof data === 'object' && data !== null) {
+                        if (Array.isArray(data)) {
+                            const container = document.createElement('div');
+                            container.innerHTML = `${indent}<span class="tag">[</span>`;
+                            dataViewer.appendChild(container);
+
+                            data.forEach((item, index) => {
+                                const newPath = path ? `${path}.${index}` : `.${index}`;
+                                const itemElement = document.createElement('div');
+                                itemElement.className = 'node';
+                                itemElement.dataset.path = newPath;
+                                itemElement.style.marginLeft = `${level * 15}px`;
+
+                                renderJson(item, newPath, level + 1);
+
+                                // ??????
+                                itemElement.addEventListener('click', function (e) {
+                                    e.stopPropagation();
+                                    handleNodeClick(this, rowId);
+                                });
+                            });
+
+                            const endContainer = document.createElement('div');
+                            endContainer.innerHTML = `${indent}<span class="tag">]</span>`;
+                            dataViewer.appendChild(endContainer);
+                        } else {
+                            const container = document.createElement('div');
+                            container.innerHTML = `${indent}<span class="tag">{</span>`;
+                            dataViewer.appendChild(container);
+
+                            Object.keys(data).forEach(key => {
+                                const newPath = path ? `${path}.${key}` : key;
+                                const keyElement = document.createElement('div');
+                                keyElement.className = 'node';
+                                keyElement.dataset.path = newPath;
+                                keyElement.style.marginLeft = `${level * 15}px`;
+                                keyElement.innerHTML = `${indent}&nbsp;&nbsp;<span class="json-key">"${key}"</span>: `;
+
+                                const value = data[key];
+                                if (typeof value === 'object' && value !== null) {
+                                    dataViewer.appendChild(keyElement);
+                                    renderJson(value, newPath, level + 1);
+                                } else {
+                                    let valueHtml;
+                                    if (typeof value === 'string') {
+                                        valueHtml = `<span class="json-string">"${value}"</span>`;
+                                    } else if (typeof value === 'number') {
+                                        valueHtml = `<span class="json-number">${value}</span>`;
+                                    } else if (typeof value === 'boolean') {
+                                        valueHtml = `<span class="json-boolean">${value}</span>`;
+                                    } else if (value === null) {
+                                        valueHtml = `<span class="json-null">null</span>`;
+                                    }
+
+                                    keyElement.innerHTML += valueHtml;
+                                    dataViewer.appendChild(keyElement);
+                                }
+
+                                // ??????
+                                keyElement.addEventListener('click', function (e) {
+                                    e.stopPropagation();
+                                    handleNodeClick(this, rowId);
+                                });
+                            });
+
+                            const endContainer = document.createElement('div');
+                            endContainer.innerHTML = `${indent}<span class="tag">}</span>`;
+                            dataViewer.appendChild(endContainer);
+                        }
+                    }
+                }
+
+                // ????
+                renderJson(jsonObj);
+            }
+
+            // ????????
+            function handleNodeClick(element, rowId) {
+                // ???????
+                document.querySelectorAll('.node.selected').forEach(el => {
+                    el.classList.remove('selected');
+                });
+
+                // ??????
+                element.classList.add('selected');
+
+                // ???????????
+                const path = element.dataset.path;
+                document.getElementById(`path${rowId}`).value = path;
+
+                // ??????????
+                const nodeNameInput = document.getElementById(`nodeName${rowId}`);
+                const formatSelector = document.querySelector(`#nodeType${rowId}`);
+
+                if (formatSelector.value === 'xml') {
+                    // ??XML????????
+                    const pathParts = path.split('/');
+                    const nodeName = pathParts[pathParts.length - 1].replace(/\[\d+\]/g, '');
+                    nodeNameInput.value = nodeName;
+                } else {
+                    // ??JSON???????????
+                    const pathParts = path.split('.');
+                    const lastPart = pathParts[pathParts.length - 1];
+                    const keyName = lastPart.replace(/\[\d+\]/g, '');
+                    nodeNameInput.value = keyName;
+                }
+
+                nodeNameInput.focus();
+            }
+
+            // ??XML???XPath
+            function getXPath(node) {
+                if (node.nodeType !== Node.ELEMENT_NODE) {
+                    return '';
+                }
+
+                let path = '';
+                for (; node && node.nodeType === Node.ELEMENT_NODE; node = node.parentNode) {
+                    let index = 0;
+                    for (let sibling = node.previousSibling; sibling; sibling = sibling.previousSibling) {
+                        if (sibling.nodeType === Node.ELEMENT_NODE && sibling.nodeName === node.nodeName) {
+                            index++;
+                        }
+                    }
+
+                    const tagName = node.nodeName.toLowerCase();
+                    const pathIndex = (index ? '[' + (index + 1) + ']' : '');
+                    path = '/' + tagName + pathIndex + path;
+                }
+
+                return path;
+            }
+
+            // ?????
+            // addInputRow();
+            function changeMsgType() {
+
+
+                 
+
+                  strArr=[]
+                const formContainer = document.getElementById('formContainer');
+                //const parent = document.getElementById("parentElement");
+                while (formContainer.hasChildNodes()) {
+                    formContainer.removeChild(formContainer.firstChild);
+                }
+                if (document.getElementById("messageType").value != 'xml') {
+
+
+                }
+
+                const select = document.getElementById("messageType")
+                const selectedOption = select.options[select.selectedIndex];
+
+                // ??value???
+                const value = selectedOption.value;
+                category = selectedOption.dataset.category; // ?data-category????
+
+                console.log(category)
+                var url = "http://192.168.61.128:52773/SearchTable/GetProperty/" + value
+                //let that=this
+                if (category == 'other') {
+                    $.ajax({
+                        type: "Get",
+                        url: url,
+                        async: true,
+                        dataType: "json",
+                        success: function (res) {
+                            Property = res
+
+
+                        }
+                    })
+
+
+                    //  addInputRow();
+
+
+
+
+
+                }
+
+
+                // ????
+
+
+
+                // const formContainer = document.getElementById('formContainer');
+
+
+                rowCount = 0
+                //const parent = document.getElementById("parentElement");
+                while (formContainer.hasChildNodes()) {
+
+                    formContainer.removeChild(formContainer.firstChild);
+                }
+                if (document.getElementById("messageType").value != 'xml') {
+
+
+                }
+                //addInputRow();
+            }
+            messageType.addEventListener('change', changeMsgType)
+            function submitSearchtable() {
+
+                console.log($('#searchTableName').val())
+                console.log($('#messageType').val())
+
+               var input={}
+               input.name=$('#searchTableName').val()
+               input.messageType=$('#messageType').val()
+               input.Type=category
+               input.Content=[]
+               var test={}
+                 if (category != "xml") { 
+               
+                var i = 0
+                for (i = 1; i < rowCount + 1; i++) {
+	                var temp={}
+	                temp.name=$('#nodeName' + i).val()
+	                temp.path=$('#path' + i).val()
+                    temp.nodeType=$('#nodeType' + i).val()
+	               
+	                if (!Object.prototype.hasOwnProperty.call(test, $('#msgtypeP' + i).val()))
+	                {
+		                 test[$('#msgtypeP' + i).val()]=[]
+		            }
+	               
+                    test[$('#msgtypeP' + i).val()].push(temp)
+                    
+                   
+                     
+
+                }
+                 input.Content=test
+                }else{
+	                 var i = 0
+                for (i = 1; i < rowCount + 1; i++) {
+	                var temp={}
+	                temp.name=$('#nodeName' + i).val()
+	                temp.path=$('#path' + i).val()
+	                 input.Content.push(temp)  
+                    }
+	                    
+	                     
+	              }
+	               console.log("xxxxxx")
+                 $.ajax({
+                    type: "POST",
+                    url: "http://192.168.61.128:52773/SearchTable/AddSearchTableM",                 //??
+                    async: true,
+                    data: JSON.stringify(input),
+                    dataType: "json",
+                    success: function (res) {
+	                     console.log("xxxxxx123")
+                         var r=confirm(res.return);
+                       
+                    },
+                    error: function(xhr, status, error) {
+	                          console.log(error)
+    // ????
+  }
+                })
+
+            }
+
+            submitbtn.addEventListener('click', submitSearchtable)//
+            function test() {
+                const select = document.getElementById('messageType');
+
+
+                $.ajax({
+                    type: "Get",
+                    url: "http://192.168.61.128:52773/SearchTable/GetMsgClass",                 //??
+                    async: true,
+                    dataType: "json",
+                    success: function (res) {
+
+                        var i = 0
+                        var htmlstr = '<optgroup label="Vdoc"><option selected value="' + res.Vdoc[i].Value + '" selected="" data-category="' + res.Vdoc[i].Type + '" >' + res.Vdoc[i].Value + '</option>'//'<optgroup label="other">'
+                        for (i = 1; i < res.Vdoc.length; i++) {
+
+                            htmlstr = htmlstr + '<option value="' + res.Vdoc[i].Value + '"data-category="' + res.Vdoc[i].Type + '" >' + res.Vdoc[i].Value + '</option>'
+                        }
+                        htmlstr = htmlstr + '</optgroup><optgroup label="Body">'
+
+                        for (i = 0; i < res.Body.length; i++) {
+
+                            htmlstr = htmlstr + '<option value="' + res.Body[i].Value + '" data-category="' + res.Body[i].Type + '" >' + res.Body[i].Value + '</option>'
+                        }
+                        htmlstr = htmlstr + '</optgroup>'
+                        select.innerHTML = htmlstr // htmlstr+'</optgroup>'
+                        addBtn.addEventListener('click', addInputRow);
+                        addInputRow()
+                    }
+                })
+
+
+            }
+            test()
+        });
+
+    </script>
+
+
+</body>
+
+</html>
