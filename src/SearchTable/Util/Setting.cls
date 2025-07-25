@@ -21,7 +21,7 @@ ClassMethod zpm() As %Status
     SET tSC.ServeFiles=2
     Do tSC.%Save()
     zn ns
-	Quit tSC
+	Quit tSC 
 }
 
 }
