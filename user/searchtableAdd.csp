@@ -1150,14 +1150,15 @@
 	              }
 	               console.log("xxxxxx")
                  $.ajax({
-                    type: "POST",
+                    type: "Get",
                     url: "http://192.168.61.128:52773/SearchTable/AddSearchTableM",                 //??
                     async: true,
                     data: JSON.stringify(input),
-                    dataType: "json",
+                    dataType: "text",
                     success: function (res) {
 	                     console.log("xxxxxx123")
-                         var r=confirm(res.return);
+	                     //var result=JSON.parse(res)
+                         var r=confirm(res);
                        
                     },
                     error: function(xhr, status, error) {
