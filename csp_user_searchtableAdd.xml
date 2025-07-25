@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Export generator="IRIS" version="26" zv="IRIS for UNIX (Ubuntu Server LTS for x86-64 Containers) 2025.1 (Build 223U)" ts="2025-07-24 05:55:40">
+<Export generator="IRIS" version="26" zv="IRIS for UNIX (Ubuntu Server LTS for x86-64 Containers) 2025.1 (Build 223U)" ts="2025-07-25 01:11:06">
 <CSP name="all.min.css" application="/csp/user/" default="1"><![CDATA[
 /*!
  * Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com
@@ -14525,14 +14525,15 @@ return jQuery;
 	              }
 	               console.log("xxxxxx")
                  $.ajax({
-                    type: "POST",
+                    type: "Get",
                     url: "http://192.168.61.128:52773/SearchTable/AddSearchTableM",                 //??
                     async: true,
                     data: JSON.stringify(input),
-                    dataType: "json",
+                    dataType: "text",
                     success: function (res) {
 	                     console.log("xxxxxx123")
-                         var r=confirm(res.return);
+	                     //var result=JSON.parse(res)
+                         var r=confirm(res);
                        
                     },
                     error: function(xhr, status, error) {
