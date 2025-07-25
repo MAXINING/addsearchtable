@@ -7,7 +7,7 @@ XData UrlMap
   <Route Url="/*" Method="OPTIONS" Call="GetStatus"/>
   <Route Url="/GetMsgClass" Method="GET" Call="GetMsgClass"/>
   <Route Url="/GetProperty/:ClassName" Method="GET" Call="GetProperty"/>
-   <Route Url="/AddSearchTableM" Method="POST" Call="AddSearchTableM"/>
+   <Route Url="/AddSearchTableM" Method="Get" Call="AddSearchTableM"/>
   
 </Routes>
 }
@@ -97,16 +97,17 @@ ClassMethod GetProperty(ClassName) As %Status
 ClassMethod AddSearchTableM() As %Status
 {
 
- // W "-------"
+ 
   set input =$zcvt(%request.CgiEnvs("QUERY_STRING"),"I","URL")
+  
   set status= ..CreateSearchTable(##class(%DynamicObject).%FromJSON(input))
-  w "{""return"":""success""}"
+  
   Quit $$$OK
 }
 
 ClassMethod CreateSearchTable(input) As %Status
 {
-	try {
+	
 	//set itor=ob.%GetIterator()
     set array=input.Content
     set itor=array.%GetIterator()
@@ -209,13 +210,11 @@ ClassMethod CreateSearchTable(input) As %Status
 	do imp.WriteLine("   Quit $$$OK")
 	Do class.Methods.Insert(methodl)
 	Do class.%Save()
-	w "/*"
+	w "{""text"":"""
      Do $System.OBJ.Compile(input.name)
-    w "*/"
+    w """,""return"":""success""}"
     	
-	}catch e{
-			
-    }
+
 
 		 Quit $$$OK
 		///Property
